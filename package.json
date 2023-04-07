@@ -1,0 +1,24 @@
+{
+  "name": "better-notes",
+  "version": "0.0.1",
+  "description": "Better Notes",
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "build": "cd react-ui/ && npm install && npm run build",
+    "heroku-postbuild": "cd react-ui/ && npm install && npm run build"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "react-ui/node_modules"
+  ],
+  "dependencies": {
+    "express": "^4.16.4",
+    "axios": "^0.26.1",
+    "cors": "^2.8.5"
+  },
+  "license": "MIT",
+  "devDependencies": {}
+}

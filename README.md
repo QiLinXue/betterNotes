@@ -1,8 +1,13 @@
-# BetterNotes (WIP!)
+# BetterNotes (WIP)
 
 ## Introduction to BetterNotes
 **BetterNotes** is a project with the intended purpose of making the process of note-taking more *streamlined* for STEM classes, specifically aimed at math, physics, and CS courses.
 
+### Demo
+**See an interactive live demo [here!](http://qilin-better-notes.herokuapp.com/)**
+
+**Watch it in action:** *Note:* in the demo below, I used a VSCode extension that automatically updates the HTML file, but you can use any editor you wish! You can even use a markdown app, and the HTML file will still be automatically updated.
+![](better-notes-demo.gif)
 ### High Level Goals
 This aims to make note-taking easier by:
 
@@ -17,7 +22,11 @@ This aims to make note-taking easier by:
 ### Inspiration
 This project is inspired from spending countless hours taking notes in both $\LaTeX$ and HTML as both a student and a teaching assistant. Why can't I take notes on an easier platform and have it convert it to both HTML and LaTeX?
 
-## Basic Features
+### Disclaimer
+The project is not yet complete! Currently, it only supports markdown to HTML. I hope to eventually add $\LaTeX$ support and custom styles (who knew writing notes could be so simple!)
+
+
+## Features
 Here are some examples of basic features
 
 ### Math
@@ -35,21 +44,11 @@ def fib(n):
     else:
         return fib(n-1) + fib(n-2)
 ```
-or even C code!
-```C
-#include <stdio.h>
-int main() {
-   // printf() displays the string inside quotation
-   printf("Hello, World!");
-   return 0;
-}
-```
 
 ### Images
 We can import a simple image (this is what DALLE gives me for the prompt `note taking app cyberpunk`)
 ![](test_img.png)
 
-## Advanced Features
 ### TikzPicture
 This note system supports custom tikzpictures! How cool is that!
 ```tex
@@ -75,24 +74,36 @@ and theorems
 
 @@THM
 Theorem: It is trivial to show that
-$$ P \neq NP? $$
+$$ P \neq NP$$
 @@
 
 @@PRF
-Prove by contradiction. Suppose $P=NP.$ Then pick $N=2.$ Dividing both sides by $P$ gives
+*Proof:* Prove by contradiction. Suppose $P=NP.$ Then pick $N=2.$ Dividing both sides by $P$ gives
 $$1 = N$$
 contradicting $N=2.$
 @@
 
-## Compiling
+## Usage
+### Compiling
+First, make sure you pip install `pyinstaller`. Then run:
 ```bash
 pyinstaller --onefile betterNotes.py
-mv dist/betterNotes ~/bin
 ```
 
 You may need to add it to path. On Linux, you can do this via
 ```bash
+mv dist/betterNotes ~/bin
 nano ~/.bashrc
 export PATH="$PATH:$HOME/bin"
 source ~/.bashrc
+```
+
+### Live Update
+After it has compiled, you can run
+```bash
+betterNotes input.md output.html
+```
+where you can replace `input.md` and `output.html` with the respective input and output files. If `output.html` is not give, the output file will default to `input.html`. If `input.md` or `output.html` do not exist, they will be created. Therefore, to start new notes you can simply run
+```bash
+betterNotes input.md
 ```

@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ESC190 Lecture Notes Part 3: Advanced Data Structures and Algorithms</title>
+  
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous"> -->
+
+        <!-- Bootstrap Style -->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+          crossorigin="anonymous"
+        />
+
+        <!-- TOC CSS -->
+        <link rel="stylesheet" href="https://afeld.github.io/bootstrap-toc/bootstrap-toc.css">
+
+        <link rel="stylesheet" href="https://afeld.github.io/bootstrap-toc/assets/screen.css" media="screen" charset="utf-8">
+
+        <script
+          src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+          integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+          crossorigin="anonymous"
+        ></script>
+
+        <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"
+      ></script>
+      <script src="https://afeld.github.io/bootstrap-toc/bootstrap-toc.js"></script>
+          
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+    <script src="https://tikzjax.com/v1/tikzjax.js"></script>
+    <script type="text/javascript">
+      (function (i, s, o, g, r, a, m) {
+        i["GoogleAnalyticsObject"] = r;
+        (i[r] =
+          i[r] ||
+          function () {
+            (i[r].q = i[r].q || []).push(arguments);
+          }),
+          (i[r].l = 1 * new Date());
+        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m);
+      })(
+        window,
+        document,
+        "script",
+        "//www.google-analytics.com/analytics.js",
+        "ga"
+      );
+
+      ga("create", "UA-19048260-11", "auto");
+      ga("send", "pageview");
+
+      hljs.highlightAll();
+    </script>
+    
+  </head>
+<body data-bs-spy="scroll" data-target="#toc">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <nav id="toc" data-toggle="toc" class="sticky-top"></nav>
+      </div>      <div class="col-sm-9">
+          <h1 id="-Title">ESC190 Lecture Notes Part 3: Advanced Data Structures and Algorithms</h1>
+
+<p>See all lecture notes <a href="../">here</a>.</p>
+
+<h1 id="L1"> L22: Stacks and Queues</h1>
+
+<h2 id="L1-stack-adt"> Stack ADT</h2>
+
+<p><div class="alert alert-success" role="alert">A <strong>stack</strong> is a collection of elements with the operations <code>push</code> and <code>pop</code></p>
+
+<ul>
+<li><code>push</code> inserts the elements into the collection</li>
+<li><code>pop</code> removes the most <em>recently added element</em> that's not yet removed and returns it
+</div></li>
+</ul>
+
+<p>Intuitively, we can think of this as a stack of blocks. We can only add blocks to the top of this stack and remove it from the top. This is known as LIFO (last in first out). If we start with an empty list <code>[ ]</code> then run the following commands, we have:</p>
+
+<ol>
+<li><code>push(1)</code></li>
+<li><code>push(50)</code></li>
+<li><code>pop()</code> (returns 50)</li>
+<li><code>push(100)</code></li>
+<li><code>pop()</code> (returns 100)</li>
+<li><code>pop()</code> (returns 1)</li>
+</ol>
+
+<p>Note: Note that our "stack of blocks" analogy is an analogy of how we could implement a stack. It is a very natural way of implementing it, since if we put new items at the top of the stack, then popping them from the top automatically fulfills the requirement of removing the most recently added element.  </p>
+
+<p>However, we could have implemented a stack differently, since a stack is an ADT, and ADTs don't tell us the implementation details.</p>
+
+<h2 id="L1-queue-adt"> Queue ADT</h2>
+
+<p><div class="alert alert-success" role="alert">A <strong>queue</strong> is a collection of elements with the operations <code>enqueue</code> and <code>dequeue</code></p>
+
+<ul>
+<li><code>enqueue</code> inserts the elements into the collection</li>
+<li><code>dequeue</code> removes the <em>earliest added element that's not yet removed and returns it</em>
+</div></li>
+</ul>
+
+<p>The anlogy for queues is a physical queue (i.e. a line of people). If we have a queue of people waiting to get into the Praxis lecture, the first person in the queue is the first person to get in (and therefore leave the queue). This is known as FIFO (first in first out). An example starting with an empty list:</p>
+
+<ol>
+<li><code>enqueue(1)</code></li>
+<li><code>enqueue(50)</code></li>
+<li><code>dequeue()</code> (returns 1)</li>
+</ol>
+
+<h2 id="L1-implementation-of-stack"> Implementation of Stack</h2>
+
+<p>We can use a python list to act as a stack very naturally,</p>
+
+<pre><code>class Stack:
+    def __init__(self):
+        self.data = []
+
+    def push(self, item):
+        self.data.append(item)
+
+    def pop(self):
+        return self.data.pop()
+</code></pre>
+
+<p>This is because the Python <code>pop()</code> already acts like the stack <code>pop()</code> operation. It removes the last element of the list and returns it. While the above works perfectly fine, for the sake of learning, we will implement a stack without using these default methods (which allows us to extend concepts to other ADT implementations). We have,</p>
+
+<pre><code>class Stack:
+    def __init__(self):
+        self.data = []
+
+    def push(self, item):
+        self.data.append(item)
+
+    def pop(self):
+        # return self.data.pop()
+        ret_val = self.data[-1]
+        del self.data[-1]
+        return ret_val
+
+if __name__ == '__main__':
+    s = Stack()
+    s.push(1)
+    s.push(50)
+    print(s.pop())
+    s.push(100)
+    print(s.pop())
+    print(s.pop())
+</code></pre>
+
+<p>which will output <code>50, 100, 1</code> as we predicted earlier.</p>
+
+<h2 id="L1-implementation-of-queue"> Implementation of Queue</h2>
+
+<p>I claim that this is trivial to do if we have the previous section. Why is this the case?  </p>
+
+<p>The reason is that the only difference between a stack and a queue is whether we choose to remove the most recent element or the earliest element. This means making a small change in the index is sufficient (i.e. <code>-1</code> to <code>0</code>)</p>
+
+<pre><code>class Queue:
+    def __init__(self):
+        self.data = []
+
+    def enqueue(self, item):
+        self.data.append(item)
+
+    def dequeue(self):
+        ret_val = self.data[0]
+        del self.data[0]
+        return ret_val
+
+if __name__ == '__main__':
+    s = Queue()
+    s.enqueue(1)
+    s.enqueue(50)
+    print(s.dequeue())
+    s.enqueue(100)
+    print(s.dequeue())
+    print(s.dequeue())
+</code></pre>
+
+<p>which prints out <code>1 50 100</code> as expected.</p>
+
+<h2 id="L1-complexity"> Complexity</h2>
+
+<p>This seems boring for such a simple data structure, but it is actually very exciting! First, note that the time complexity of <code>push</code> and <code>enqueue</code> is the same as the time complexity of appending to a list. This is \(\mathcal{O}(1)\) but it's not obvious why this is the case!</p>
+
+<ul>
+<li>If we were to implement this in C via an array, we can allocate extra memory such that writing to the array is \(\mathcal{O}(1)\). However, if we add enough elements to the array, then we run out of space and need to re-allocate memory, making the worst case scenario \(\mathcal{O}(n)\).</li>
+<li>However in practice, this worst case scenario above isn't actually that bad. If every time we run out of memory, we double the allocated space, then there's only so many times we need to reallocate space (since exponents grow very fast). Note that this is a very common strategy people use.</li>
+</ul>
+
+<p>In Python, lists are implemented <a href="https://wiki.python.org/moin/TimeComplexity">internally</a> as an array, so the above analysis applies as well.  </p>
+
+<p>Retrieving elements in an array by index and deleting the last element of an array are both \(\mathcal{O}(1)\) so the time complexity of <code>pop</code> is \(\mathcal{O}(1)\)  </p>
+
+<p>However, <code>dequeue</code> is \(\mathcal{O}(n)\). This is because once the item at index 0 is removed, the item that used to be at index 1 needs to be at index 0. In order for this to happen, the rest of the elements need to be shifted to the left, so a total of 10 operations are done.</p>
+
+<h2 id="L1-improving-queues"> Improving Queues</h2>
+
+<p>Our naive implementation of a queue is very inefficient. Intuitively, a simple task such as removing the leftmost element can be done in constant time, so how can we fix this?  </p>
+
+<p>We can use linked lists!</p>
+
+<p><img src="diagrams/linked_list_queue.png.jpg" alt="..." width="100%" /></p>
+
+<p>Refer to the above diagram. The basic idea is that if we remove the first element, instead of shifting everything to the left, we can just change the <code>HEAD</code> pointer of the linked list to direct to the second element, which takes \(\mathcal{O}(1)\) time. We can implement this as follows:</p>
+
+<pre><code>import linkedlist
+
+class LLQueue:
+    def __ini__(self):
+        self.data = linkedlist.LinkedList()
+
+    def enqueue(self):
+        self.data.append(item)
+
+    def dequeue(self):
+        ret_value = self.data.head.value
+        self.data.head = self.data.head.next
+</code></pre>
+
+<p>where <code>linkedlist</code> is the code we wrote in Lecture 21. Note that there is one problem. In order to append, we had to traverse the entire linked list, so the time complexity for <code>enqueue</code> is now \(\mathcal{O}(n)\). We can fix this by modifying the linked list implementation to keep track of the tail of the linked list, so that appending is \(\mathcal{O}(1)\). That is,</p>
+
+<pre><code>class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+</code></pre>
+
+<p>Note that we now have to edit our existing functions so that it updates the tail pointer as well when we append and insert. See (and visualize) the changes that were made <a href="https://github.com/QiLinXue/esc190-notes/commit/3fe8daba4b99358152a34e187fcba656932ccba6">here!</a> The updated linked list file is</p>
+
+<pre><code>class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def get_i(self, i):
+        # return the value at index i
+        cur = self.head
+        for j in range(i):
+            cur = cur.next
+        return cur.value
+
+    def append(self, value):
+        '''Add a new node with the value value to the end of the list'''
+        # Create a new node
+        new_node = Node(value)
+
+        if self.head == None:
+            self.head = new_node
+            self.tail = new_node
+
+        self.tail.next = new_node
+        self.tail = new_node
+
+    def insert(self, value, i):
+        '''Insert a node with the value value at index i'''
+        new_node = Node(value)
+
+        if i == 0:
+            new_node.next = self.head
+            self.head = new_node
+
+        else:
+            cur = self.head
+            for j in range(i-1):
+                cur = cur.next
+            new_node.next = cur.next
+            cur.next = new_node
+
+        if new_node.next == None:
+            self.tail = new_node
+
+    def __str__(self):
+        cur = self.head
+        s = ""
+        if(cur == None):
+            return "Empty list :("
+
+        while cur != None:
+            print(cur)
+            s += str(cur) + " -&gt; "
+            cur = cur.next
+        return s[:-4] # remove last arrow
+</code></pre>
+
+<p>Note that the lecture had a minor typo. In the lecture, <code>self.tail</code> was initially set to <code>None</code> but it was never initialized, so running something like <code>self.tail.next = new_node</code> would lead to an error.  </p>
+
+<p>This is one very practical case where linked lists come in handy. The native implementation of queues in Python is via <code>collections.deque</code> which does it via doubly linked list, similar to what we constructed above.</p>
+
+<h1 id="L2"> L23: Midterm Question (PyInteger)</h1>
+
+<p>In this lecture, we review the midterm: specifically question 5 where we are asked to implement the ADT <code>pyinteger</code> which allows us to represent arbitrarily large integers and perform the two basic operations,</p>
+
+<ul>
+<li><code>plusplus(n1)</code> adds <code>1</code> to the <code>pyinteger n1</code></li>
+<li><code>add(n1, n2)</code> adds the <code>pyinteger n2</code> to the <code>pyinteger n1</code></li>
+</ul>
+
+<p>We first set up our header file, <code>pyinteger.h</code>:</p>
+
+<pre><code>#if !defined(PYINTEGER_H)
+#define PYINTEGER_H
+
+typedef struct pyinteger{
+    int *digits;
+    int size;
+    int capacity;
+} pyinteger;
+
+void plusplus(void *pyint);
+void add(pyinteger *pyint1, pyinteger *pyint2);
+
+#endif
+</code></pre>
+
+<p>where <code>pyinteger</code> is a struct that contains the following fields:</p>
+
+<ul>
+<li><code>digits</code> is a pointer to an array of integers that stores the digits of the integer</li>
+<li><code>size</code> is the number of digits in the integer</li>
+<li><code>capacity</code> is the maximum number of digits that can be stored in the array</li>
+</ul>
+
+<p>Here, we are representing an integer via an array where each element in this array is a digit from 0-9. For example, the integer 1234 would be represented as <code>[1, 2, 3, 4]</code>. We use a similar approach to the one we used in Lecture 21 to update the <code>capacity.</code> Every time the capacity is reached and we need to add another digit, we double the capacity of the array.</p>
+
+<h2 id="L2-creating-the-struct"> Creating the Struct</h2>
+
+<p>Now we work in <code>pyinteger.c</code> and we wish to implement the ADT. But first, we can create an optional function that allows us to create a <code>pyinteger</code> struct which initially stores <code>int n</code>. What are some natural tasks that we must do?</p>
+
+<ul>
+<li>How can we determine the initial <code>capacity</code>? In other words, how do we make sure we initially allocated enough space for our array?</li>
+<li>How can we put the digits into the array <code>*digits</code>? To do this, we need to find a good way of extracting the digits from the initial integer.</li>
+</ul>
+
+<p>To determine the initial capacity, we need to determine the number of digits <code>int n</code> has.</p>
+
+<p><div class="alert alert-primary" role="alert">I claim that the formula for the number of digits of \(n\) is given by \[\text{num of digits} = \text{floor}(\log_{10}(n)) + 1.\]
+</div></p>
+
+<p><div class="alert alert-dark" role="alert"><em>Proof:</em> A \(k\)-digit number can be written as \[n = a_{k-1}10^{k-1} + a_{k-2}10^{k-2} + \cdots + a_110^1 + a_.\] where the leading coefficient \(a_{k-1} \neq 0\). To double-check this, note that \(15 = 1 \times 10^1 + 5\) so the leading power is \(k-1\). Note that: \[10^{k-1} \le n &lt; 10^k.\] It is important that the right inequality is strict! This is because \(10^k\) has \(k+1\) digits while \(n\) only has \(k\) digits. For those who want more rigour, note that each \(a_i\) is smaller or equal to \(9\) so we can bound \(n \le \sum_{i=0}^{k-1} 9 \cdot 10^{i}\). <br />
+</div></p>
+
+<p>Since the logarithm is a monotonically increasing function, we have \[\log_{10}(10^{k-1}) \le \log_{10}(n) &lt; \log_{10}(10^k)\] or equivalently, \[k-1 \le \log_{10}(n) &lt; k.\] Therefore, \(\text{floor}(\log_{10}(n))=k-1\) so \[k = \text{floor}(\log_{10}(n)) + 1\] as expected.  </p>
+
+<p><strong>However:</strong> If \(n=0\) then we get something that is undefined, so we have to treat this case separately.</p>
+
+<p>Obviously, you are not expected to prove this on the midterm, but I provided the proof here for those who are interested and for the rigour. It's a handy fact to know though, so you don't need to be stressed about weird edge cases! The process of extracting the digits from the integer is a bit tricky, but it's something that we've done before! To get the last digit, we can compute \[n \% 10.\] To get the second to last digit, we can shift all the digits by diving the number by \(10\) and ignoring the decimal part. Then we can repeatedly apply this same algorithm until we have no more digits left. Therefore, we should start from the end of the array and work our way backwards. Here is the code:</p>
+
+<pre><code>void create_integer(pyinteger **pyint, int n){
+    // Allocate memory for the pyinteger struct
+    *pyint = (pyinteger*)malloc(sizeof(pyinteger));
+
+    // Proven in a theorem
+    if (n == 0){
+        (*pyint)-&gt;capacity = 1;
+    }
+    else{
+        (*pyint)-&gt;capacity = (int)(log10(n)) + 1;
+    }
+
+    // Currently the number of digits is the same as the capacity
+    (*pyint)-&gt;num_digits = (*pyint)-&gt;capacity;
+
+    // Allocate memory for the digits
+    (*pyint)-&gt;digits = (int*)malloc(sizeof(int) * (*pyint)-&gt;capacity);
+
+    // Fill the digits
+    for (int loc = (*pyint)-&gt;num_digits - 1; loc &gt;= 0; loc--){
+        (*pyint)-&gt;digits[loc] = n % 10;
+        n /= 10;
+    }
+}
+</code></pre>
+
+<h2 id="L2-implementing-plusplus"> Implementing PlusPlus</h2>
+
+<p>Now we need to implement the function <code>plusplus</code>. This function should add <code>1</code> to the integer. Why might this be a tricky task? Well, the naive approach is to just add <code>1</code> to the units digit, but if the units digit is \(9\), then something weird might happen. Let's break it up into two cases, and work with the easier case first (this is a good idea in a test situation, since you know there will definitely be partial marks)</p>
+
+<ul>
+<li>Case 1: The units digit is not 9. We simply get the value at index <code>pyint-&gt;num_digits - 1</code> and check if it's a 9. If not, then we increment it by 1!</li>
+<li>Case 2: We draw analogy from long addition. We change the 9 into a 0, then carry over to the previous digit. If that digit is not 9, we add 1. If it is 9, we change it into a 0 and continue.</li>
+</ul>
+
+<p>we can implement it (with a small hiccup we'll discuss in a bit) as follows:</p>
+
+<pre><code>void plusplus(pyinteger *pyint){
+    int loc;
+    for (loc = pyint-&gt;num_digits - 1; loc &gt;= 0; loc--){
+        if (pyint-&gt;digits[loc] == 9){
+            pyint-&gt;digits[loc] = 0;
+        } else {
+            pyint-&gt;digits[loc]++;
+            break;
+        }
+    }
+}
+</code></pre>
+
+<p>Note that at this stage, there is one more hiccup. If everything is 9, then the size of the number can increase! This specific case is a bit annoying, but just doing everything up to this point will give you 8/10 points. <em>If you can't fully figure how to solve a question, solving it partially can still land you a lot of points!</em>  </p>
+
+<p>So how do we fix this? To deal with this case, we ask the following natural questions:</p>
+
+<ul>
+<li>How can we even detect if we need to do this case?</li>
+<li>How do we decide if we need to re-allocate memory?</li>
+<li>How do I shift the digits? (This is actually a bit misleading, as we'll see in a bit)</li>
+</ul>
+
+<p>To detect if we even need to consider this case, there are many ways to do so. One way is to check the value of <code>loc</code> after the for loop finishes. If the for loop exits via the break statement, we should have <code>loc &gt;= 0.</code> If it doesn't exit via the break statement, that means the first digit was also a 9, so <code>loc == 0.</code>  </p>
+
+<p>How can we check if we need to re-allocate memory? At this point, we know that the number of digits has increased by 1, so we can update <code>num_digits.</code> Now we can check if the number of digits is greater than the capacity. If it is, then we need to re-allocate memory. We can do this by doubling the capacity.  </p>
+
+<p>Finally, we need to be able to shift all the digits over. At least, this was my first thought when I saw the problem. However, if we work through a simple example (or think about it), at this point, every single digit should be 0! Therefore, all we need to do here is set the first digit to 1. Easy!</p>
+
+<pre><code>void plusplus(pyinteger *pyint){
+    int loc;
+    for (loc = pyint-&gt;num_digits - 1; loc &gt;= 0; loc--){
+        if (pyint-&gt;digits[loc] == 9){
+            pyint-&gt;digits[loc] = 0;
+        } else {
+            pyint-&gt;digits[loc]++;
+            break;
+        }
+    }
+
+    if(loc == -1){
+        pyint-&gt;num_digits++;
+        if(pyint-&gt;num_digits &gt; pyint-&gt;capacity){
+            pyint-&gt;capacity *= 2;
+            // Reallocate memory for the digits
+            pyint-&gt;digits = (int*)realloc(pyint-&gt;digits, sizeof(int) * pyint-&gt;capacity);
+        }
+
+        // First digit is 1
+        pyint-&gt;digits[0] = 1;
+
+        // Last digit is 0
+        pyint-&gt;digits[pyint-&gt;num_digits - 1] = 0;
+    }
+}
+</code></pre>
+
+<h2 id="L2-implementing-add"> Implementing Add</h2>
+
+<p>Now we need to implement adding. First, why might this be a hard task? It's because the digits are not aligned in a "nice" manner. When we learn long addition in elementary school, we align the rightmost digit (ones digit) of the two numbers. But the way we implemented it here, we align the leftmost digit.  </p>
+
+<p>Note: we did not get to finish this in class, but here are some ideas for solutions</p>
+
+<ul>
+<li><p>Partial Solution: You can call <code>plusplus()</code> multiple times. This is very easy to implement, since all you have to figure out is how to implement a for loop that adds 1 to <code>n1</code> a total of <code>n2</code> times.  </p>
+
+<p>One way to do this is to create a helper function to compare two pyintegers. Then we can create a temporary <code>pyinteger</code> and initialize it to 0. We then increment both this temporary pyinteger and <code>n1</code> until the temporary pyinteger is equal to <code>n2</code>.  </p>
+
+<p>This is not optimal, since the time complexity is \(\mathcal{O}(n\log n)\) while the optimal complexity is \(\mathcal{O}(\log n)\). Because we care about time complexity in this course, you will not receive full marks, but it's possible to receive 8/10 points.</p></li>
+<li>Another way to solve this is to get rid of the annoying problem. Modify the <code>pyintegers</code> such that the units digit align. This can be done by shifting the digits over and filling everything before the leading digit with 0s. Then we can apply the standard long addition algorithm we learned in elementary school. Just remember to shift the digits back after we're done!</li>
+<li>Another way uses the same idea as above, but instead of shifting the digits, we can reformulate the standard "long addition" algorithm with indices, to make it easier to implement with code. Then all we have to do is write the algorithm with the C language!</li>
+</ul>
+
+<p>Note: This section will get updated depending on the direction of Friday's class.</p>
+
+<h1 id="L3"> L25: Heaps and Priority Queue</h1>
+
+<p>A <strong>priority queue</strong> is a queue where the first element dequered is the one with the highest priority.</p>
+
+<ul>
+<li><code>Insert(S,x)</code> adds a new element with priority <code>x</code> to priority queue <code>S</code></li>
+<li><code>min(S)</code> returns the element with the smallest value from the priority queue</li>
+<li><code>extract_min(S)</code> removes and returns the element with the smallest value from the priority queue</li>
+</ul>
+
+<p>This has many uses. It can simulate real-world systems queues organized by priority (i.e. patients in a hospital or files requested from a server). Alternatively, it can be used in searching algorithms (i.e. in games) such as A* (A Star).</p>
+
+<h2 id="L3-slow-method-1"> Slow Method 1</h2>
+
+<p>The naive implementation is to store everything in an (unsorted) array. Every time that we wish to extract the minimum, we have to search through the entire array to find the minimum. See the below code,</p>
+
+<pre><code>class PriorityQueueSlow:
+    def __init__(self):
+        self.data = []
+        self.size = 0
+
+
+    def insert(self, value):
+        self.data.append(value)
+        self.size += 1
+
+    def extract_min(self):
+        if self.size == 0:
+            return None
+
+        cur_min = self.data[0]
+        cur_min_loc = 0
+        for i in range(1, self.size):
+            if self.data[i] &lt; cur_min:
+                cur_min = self.data[i]
+                cur_min_loc = i
+
+        del self.data[cur_min_loc]
+        self.size -= 1
+        return cur_min
+</code></pre>
+
+<p>What is the time complexity? Inserting is effectively O(1) as discussed last time, and extracting the minimum is O(n), since we need to search through the entire array.</p>
+
+<h2 id="L3-slow-method-2"> Slow Method 2</h2>
+
+<p>One idea is to keep the data sorted, so we don't need to look for the minimum. This is not enough though: we want to ensure we are deleting the last element of the array (which takes constant time), not the first one (which takes linear time, due to the need to shift all the elements over). Therefore, we need to keep <code>self.data</code> sorted in non-increasing order. We have,</p>
+
+<pre><code>class PriorityQueueSlow2:
+    def __init__(self):
+        self.data = []
+        self.size = 0
+
+    def insert(self, value):
+        i = 0
+        while i &lt; self.size:
+            if value &gt; self.data[i]:
+                break
+            i += 1
+
+        # i is the index before which we can insert value
+        self.data.insert(i, value)
+        self.size += 1
+
+    def extract_min(self):
+        if self.size == 0:
+            return None
+        self.size -= 1
+        return self.data.pop() # O(1)
+</code></pre>
+
+<p>Here, linear search is being done to find the index to insert the new element, so while <code>extract_min()</code> now takes constant time, inserting takes linear time. Someone bright might claim that we can use binary search to find the index to insert the new element, but this does not solve the problem. This is because inserting also takes linear time, as everything needs to be shifted.  </p>
+
+<p>That's a bit of a bummer! It seems like no matter how we structure things, we cannot escape the \(\mathcal{O}(n)\) complexity of inserting/removing an element. This introduces the concept of heaps.</p>
+
+<h2 id="L3-heaps"> Heaps</h2>
+
+<p>We can implement a more efficient algorithm using heaps. But to understand heaps, we first need to introduce <strong>trees.</strong></p>
+
+<p>A <strong>tree</strong> is a collection of nodes, where each node has two children, except the <strong>leaves</strong> (nodes at the bottom with no children), and every leaf is as far left as possible on the last level.</p>
+
+<p>Usually, we deal with binary trees (meaning each node has at most 2 children). For example, the below is a <strong>complete</strong> binary tree (a tree where all nodes except leaves have two children and each leaf is as far left as possible).</p>
+
+<p><img src="assets/complete_tree.jpg" alt="" width="100%" /></p>
+
+<p>For heaps (specifically a min-heap), we desire a <strong>heap order property</strong> which means that each node is smaller than its children. A heap is a complete graph and when we add a new element, we first add it to the leftmost position in the bottom row.  </p>
+
+<p>In order to satisfy the heap order property, we <em>percolate</em> the node upwards, exchanging it with the parent if it is smaller than the parent. For example, if we add 14 to a heap (boxed), we can swap it with the parent until the heap order property is satisfied, as shown below.</p>
+
+<p><img src="assets/up-heap.jpg" alt="" width="100%" /></p>
+
+<p>One way to implement a heap is to use a linked list where each node has a <code>left_child</code> and <code>right_child</code> and while this is more intuitive, it is often faster to implement it via an array and use mathematics to perform index gymnastics. Note that this only works because a heap is a complete binary tree. We store the first tree in this section as \[ [\_, a, b,c,d,e,f,g,h,i,j,k,l,m,\dots] \]\ where the first index is left blank for convenience, which will be made clear in just a bit. Given a node at index \(i\) we can get the parent and the children via the following formulas: \[\text{parent}(i) = i/2\] \[\text{left}(i) = 2i\] \[\text{right}(i) = 2i+1\] Why does this work? First note that the index of the leftmost element of each row is given by \(2^0,2^1,2^2,\dots\) since the binary tree is complete. So <code>a</code> has index 1, <code>b</code> has index 2, <code>d</code> has index 4, and <code>h</code> has index 8. These nice numbers are only possible since we are neglecting index 0, which is empty in our array.</p>
+
+<p><em>Proof:</em> We first prove that \(\text{left}(i)=2i\). As we have already mentioned, the leftmost element of each row has index \(2^0,2^1,2^2,\dots\). Therefore, if \(i=2^{k}\), then it is clear that its left child is just the leftmost element of the next row, so for this case, we verify \(\text{left}(i)=2i\). Now we prove via induction that \(\text{left}(i)=2i\) for all \(i\).  </p>
+
+<p>Assume that this is true for some \(2^k \le i &lt; 2^{k+1} - 1\). Then, the left child of \(i+1\) is located \(2\) to the right of the left child of \(i\). That is, \[\text{left}(i+1) \overset{\#}{=} \text{left}(i) + 2 = 2i+2 = 2(i+1)\] where the equality given by \(\#\) is true via induction. We've already shown this is true for the base case \(i=2^k\) so we're done.  </p>
+
+<p>Note that this automatically implies that the formula \(\text{right}(i) = 2i+1\) is also true, since the right element has index 1 more than the left element. Note tha with the exception of \(i=1\), if \(i\) is even, then it is the left child of its parent, and if \(i\) is odd, then it is the right child of its parent. Thus, it remains to show that \(\text{parent}(i) = 2i\). This is easy if we consider the inverse of the above formula.  </p>
+
+<p>If \(i\) is even, then its parent is \(\text{left}^{-1}(i) = i/2\). If \(i\) is odd, then its parent is \[\text{right}^{-1}(i) = (i-1)/2 = i/2\] if we treat \(i/2\) as an operation that rounds down to the nearest integer (i.e. <code>i//2</code> in Python).</p>
+
+<h1 id="L4"> L26: Implementing Heaps and Dynamic Programming</h1>
+
+<h2 id="L4-insert"> Insert</h2>
+
+<p>How do we insert an element into a heap? We have the pseudocode</p>
+
+<pre><code>Insert(x):
+    k=n+1
+    pq[k] = x
+    while k &gt; 1 and pq[k/2] &gt; pq[k]
+        swap(pq[k], pq[k/2])
+        k = k / 2
+</code></pre>
+
+<p>To think of this, treat <code>k</code> as current node, and treat <code>k/2</code> as parent node (by the formulas given in the previous lecture). Then the rest is just applying the <em>percolation</em> described earlier.</p>
+
+<h2 id="L4-extracting-the-minimum"> Extracting the Minimum</h2>
+
+<p>Getting the minimum element is very easy. It's the first element! (i.e. at index 1.) However, how can we remove it and still maintain a binary tree where the heap-order property is satisfied?  </p>
+
+<p>To do so, we apply a clever trick. First, replace the first element with the last element (but remember to save it first!) The heap-order property is not satisfied, but we can <em>percolate</em> this element down until the heap-order property is satisfied. Note that there is a subtle difference:</p>
+
+<ul>
+<li>When percolating up, only one comparison needs to be made. We need to compare it with the left child and the right child. If it's bigger than either one, then we swap it with the one it's bigger than.</li>
+<li>It is possible for the current node we're percolating down to be bigger than both children. In that case, we should swap it with the smaller child, since the smaller child can be a parent of the larger one.</li>
+</ul>
+
+<p>The pseudocode is given by,</p>
+
+<pre><code>extract_min():
+    min = pq[1]
+    swap(pq[1], pq[n])
+    n = n - 1
+    k = n
+    while(2*k &lt;= n):
+        j = 2*k
+        if j &lt; n and pq[j] &gt; pq[j+1]:
+            j = j + 1
+        if pq[k] &lt;= pq[j]:
+            break
+        swap(pq[k], pq[j])
+        k = j
+    return min
+</code></pre>
+
+<p>In the above code, the <code>j &lt; n and pq[j] &gt; pq[j+1]</code> condition ensures that the current node has two children and if it does, selects the index of the smaller one. One example of how this works is shown below, where we have already replaced the smallest element with the last element, which in this case is 32. <img src="assets/down-heap.jpg" alt="" width="100%" /> The python implementation can be found <a href="https://www.cs.toronto.edu/~guerzhoy/190/labs/heaps.py">here.</a></p>
+
+<h2 id="L4-time-complexity"> Time Complexity</h2>
+
+<p>We define the <strong>height</strong> \(h\) of a tree to be the longest path from a node to a leaf. Note that from a geometric series, we can bound the number of elements in a tree of height \(h\) by \[n \le 2^0 + 2^1 + \cdots + 2^{h} = 2^{h+1} - 1\] For a complete tree with height \(h\) the number of nodes must be greater than the maximum number of nodes for a tree with height \(h-1\), which gives \[n &gt; 2^0 + 2^1 + \cdots + 2^{h-1} = 2^{h} - 1\] For \(h \ge 1\) we have \[h-1 \le \log_2(2^h-1) \le \log_2 n \le \log_2(2^{h+1}-1) &lt; h+1\] where the middle inequality is due to the above inequalities we derived, and applying the fact that logarithms are monotonic. The inequalities at the two ends are due to the fact that \[2^{h}/2 \le 2^{h} - 1\] and \[2^{h+1} -1 &lt; 2^{h+1}.\] Therefore, we have \( \log(n) \sim h \) and thus since both inserting and extracting the minimum needing at most \(h\) swaps, the time complexity is \[\mathcal{O}(h) = \mathcal{O}(\log(n)).\]</p>
+
+<h2 id="L4-dynamic-programming"> Dynamic Programming</h2>
+
+<p>Dynamic programming is not a very well-defined term, but it encompasses a set of techniques for problem solving. Specifically, it breaks up a problem into sub-tasks and uses the results from those sub-tasks to solve the original problem. We start off with a simple question:</p>
+
+<p>Compute the \(n^\text{th}\) Fibonacci number.</p>
+
+<p>The naieve ESC180 implementation is via:</p>
+
+<pre><code>def fib(n):
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    return fib(n-1) + fib(n-2)
+</code></pre>
+
+<p>While this works, it is extremely inefficient because it calculates the same values over and over again. This is because the function calls itself twice with the same argument in the recursive case. As a result, the time complexity of this implementation is exponential, which means it grows very quickly with increasing values of n.  </p>
+
+<p>To fix this problem, we use a technique called <strong>memoization</strong> (which is <em>not</em> a typo, but you can think of "memorization" as an analogy). This involves maintaining a table of values that were already computed so that we don't have to recompute them. We then have:</p>
+
+<pre><code>def fib(n, mem = {}):
+    if n in mem:
+        return mem[n]
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    mem[n] = fib(n-1, mem) + fib(n-2, mem)
+    return mem[n]
+</code></pre>
+
+<p>Therefore, if we have already computed something, we don't have to go through an entire series of recursive calls! The time complexity of this implementation is now linear, because we only have to do \(3n\) recursive calls. Note that this analysis assumes addition is constant in time, which is true for doubles, but may not be true for other data types (since fibonacci integers can increase exponentially)  </p>
+
+<p>We can also solve the same problem <strong>without</strong> recursion by having a list that gets updated as we go along. Specifically, we have</p>
+
+<pre><code>def fib_iter(int n):
+    fib_list = [0] * n
+    fib_list[0:2] = [0, 1]
+    for i in range(2, n + 1):
+        fib_list[i] = fib_list[i-1] + fib_list[i-2]
+    return fib_list[n]
+</code></pre>
+
+<p><strong>Follow-up question:</strong> the size of this array is linear in <code>n.</code> Can you do this task in constant space (i.e. the size of the array does not depend on <code>m</code>?)</p>
+
+<p>In general, for dynamic programming:</p>
+
+<ol>
+<li>Divide a complex problem into a number of simpler overlapping problem.</li>
+<li>Defined a relationship between solutions to more complex problems and solutions to simpler problems. This is known as a Bellman Equation.
+This is an important step. For the Fibonacci example, we had \[ F_i = \begin{cases} 0&amp;i=0 \\ 1 &amp; i=1 \\ F_{i-1} + F_{i-2} &amp; i \ge 2 \end{cases}\]3.  Store solutions to each subproblem, solving each subproblem once (i.e. using <code>fib_list</code> to store solutions)</li>
+<li>Use stored solutions to solve the original problem.</li>
+</ol>
+
+<p>Now, suppose we had a harder problem.</p>
+
+<p><strong>Problem:</strong> There are a row of <code>n</code> houses, each house can be painted with one of the three colors: red, blue or green. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.  </p>
+
+<p>The cost of painting each house with a certain color is represented by a <code>nx3</code> cost matrix. For example, <code>costs[0][0]</code> is the cost of painting house 0 with color red; <code>costs[1][2]</code> is the cost of painting house 1 with color green, and so on... Find the minimum cost to paint all houses.</p>
+
+<p>Note that the above wording was stolen from a LeetCode <em>medium</em> problem, but encodes the same information as the problem in the lecture. (Generally, coding interviews will contain questions at this level, so it is good practice to do medium-level Leetcode problems fast if you are trying to get software engineering PEY positions at top companies.)  </p>
+
+<p>The subproblem we are trying to solve is the minimum cost to paint the \(i^\text{th}\) house. We can define the following relationship: \[ \begin{align} R(i) &amp;= cost(i,red) + min(G(i-1), B(i-1)) \\ G(i) &amp;= cost(i,green) + min(R(i-1), B(i-1)) \\ B(i) &amp;= cost(i,blue) + min(R(i-1), G(i-1)) \\ Cost(i) &amp;= min(R(i), G(i), B(i)) \end{align} \] Here, \(R(i),G(i),B(i)\) are the optimal cost if the \(i^\text{th}\) house was painted red, green, or blue respectively. Note that these equations also reflect that no two adjacent houses can be painted the same colour.  </p>
+
+<p>From here, the python implementation is straightforward. See <a href="https://www.cs.toronto.edu/~guerzhoy/190/lec/W10/houses.py">here</a> for details.</p>
+
+<h1 id="L5"> L27: Project Overview</h1>
+
+<p>This lecture only talked about the project.</p>
+
+<h1 id="L6"> L28: Coin Change Problem</h1>
+
+<h2 id="L6-setup-strategy"> Setup + Strategy</h2>
+
+<p>Consider coin denominations of <code>[1, 4, 5]</code> and a target of <code>8</code>. What is the smallest number of coins that can be used to make the target? Can you generalize this to an efficient algorithm?</p>
+
+<p>For the above example, it is clear that the answer is <code>2</code> (just take 2 coins of value <code>4</code>). But how can we write an algorithm to do this in general? Note that this problem doesn't actually come up in everyday life, as the standard set of denominations <code>5, 10, 25, 100</code> is set up in such a way we can always use a greedy algorithm (i.e. when finding the coins, we take the largest coin possible at each step). But it is clear from our simple example that a greedy algorithm will not work.  </p>
+
+<p>Instead, we take a dynamic programming approach. Let us define \[OPT(i) := \text{smallest number of coins to make } i.\] with the base case of \[OPT(0) = 0\] and to make life easier, we can also define \[OPT(\text{negative number}) = \infty\] to illustrate that we can't make negative numbers with coins. We can then construct the Bellman equation \[OPT(i) = \min_{d \in \text{denoms}} \left\{OPT(i-d) + 1\right\}.\] Where does this equation come from? We can think of several cases. In each case, we select a coin of value \(d\) (which gives our \(+1\)), and then we are left with \(i-d\) to make, which takes an optimal number of \(OPT(i-d)\) coins to make. If we take the minimum of all these cases, we get the optimal solution.  </p>
+
+<p>In the simple example above, we have \[OPT(8) = 1 + \min \left\{OPT(7) , OPT(4) , OPT(3)\right\}\]</p>
+
+<h2 id="L6-implementation"> Implementation</h2>
+
+<p>To implement it in Python, we can set up the function</p>
+
+<pre><code>import numpy as np
+def make_change(denom, target):
+    OPT = np.inf * np.ones(target + 1)
+    OPT[0] = 0
+    # to be continued
+</code></pre>
+
+<p>This sets up the array: \[OPT = [\underbrace{0}_{\text{#coins to make 0}},\underbrace{\infty}_{\text{#coins to make 1}},\dots,\underbrace{\infty}_{\text{#coins to make target}}]\] where we have initialized all entries to infinity at the very start (where \(\infty\) means that it's impossible to make a coin of that value). This is helpful, especially in using the <code>numpy</code> package in Python because <code>np.inf</code> obeys the following properties:  </p>
+
+<ul>
+<li>You can add/subtract numbers from infinity (<code>np.inf + 1</code> returns <code>np.inf</code>)</li>
+<li>You can compare infinity to numbres (<code>np.inf &lt; 5</code> returns <code>False</code>)</li>
+</ul>
+
+<p>Therefore, we can very naturally use <code>np.inf</code> and incorporate it into our Bellman equation. Also notice that we have set up our array in such a way that we can have the correspondence \[OPT(i) = \verb#OPT[i]#\] where the LHS is a function and the RHS is the array. We can now finish the function</p>
+
+<pre><code>import numpy as np
+    def make_change(denom, target):
+        OPT = np.inf * np.ones(target + 1)
+        OPT[0] = 0
+
+        for amount in range(1, target + 1):
+
+            # check all denominations
+            for d in denom:
+
+                # can we use this denomination?
+                if amount - d &gt;= 0:
+
+                    # is this the best way to make this amount?
+                    if OPT[amount - d] + 1 &lt; OPT[amount]:
+
+                        # update the optimal solution
+                        OPT[amount] = OPT[amount-d] + 1
+
+        return OPT[target]
+</code></pre>
+
+<p>Let's break this down. Remember that in order to compute \(OPT(\text{target})\) we need to know what \(OPT(\text{target}-1)\) is, which in order to compute that, we need to know what \(OPT(\text{target}-2)\) is, and so forth, all the way to \(OPT(1)\). One way to achieve this is via recursion, but as we've seen in the Fibonacci problem case, using recursion is dangerous because there are a lot of duplicates. Therefore, we will use a <strong>bottom-up</strong> approach.  </p>
+
+<p>Let's first compute \(OPT(1)\) (which requires the value of \(OPT(0)\) to do so). It'll be either \(OPT(0) + 1 = 1\) if there exists a coin with denominations \(1\) or it'll be \(\infty\) if all coins have a denomination greater than \(1\).  </p>
+
+<p>Then we can compute \(OPT(2)\) which relies on the value of \(OPT(0)\) and \(OPT(1)\). In general, \(OPT(n)\) will rely on the value of \[OPT(0), OPT(1), \dots, OPT(n-1).\] To compute it, we use the following steps:</p>
+
+<ol>
+<li>Go through each of the possible denominations \(d\). This corresponds to <code>for d in denom</code></li>
+<li>Check if we can use this denomination to make the amount we are considering. This corresponds to checking <code>amount - d &gt;= 0</code></li>
+<li>If possible, then after using this denomination, we still need to make a total value of <code>amount - d</code>. But this is given by <code>OPT[amount - d]</code> which we already made optimal (since it comes before). The total number of coins we use if we choose this denomination is thus <code>1 + OPT[amount - d]</code>. If this number is smaller than the current optimal number, then we update our optimal number. This corresponds to the last if statement.</li>
+</ol>
+
+<h2 id="L6-concrete-example"> Concrete Example</h2>
+
+<p><strong>Note:</strong> This section is a bit repetitive as I have included very specific steps to help you understand the algorithm if you are still confused. If you are comfortable with the algorithm, you can skip this section.  </p>
+
+<p>Let us run the code on our example from before. Let us define</p>
+
+<pre><code>denom = [1, 4, 5]; target = 8
+</code></pre>
+
+<p>Then <code>OPT</code> is initialized to \[\verb#OPT# = [0,\infty,\infty,\infty,\infty,\infty,\infty,\infty,\infty]\] Now we loop through the amounts. Let <code>amount = 1</code>. We will now loop through all the denominations. We have:</p>
+
+<ul>
+<li>\(\text{amount} - 1 = 0\) so we move on to the next if statement. We have \(\verb#OPT#[\text{amount} - 1] + 1 = 1\) which is smaller than \(\infty\) so we update the array: <code>OPT[1] = 1</code>.</li>
+<li>\(\text{amount} - 4 = -3\) which is smaller than zero, so we can't use this denomination and thus we move on.</li>
+<li>\(\text{amount} - 5 = -4\) which is smaller than zero, so we can't use this denomination and thus we move on.</li>
+</ul>
+
+<p>Our <code>OPT</code> is now \[\verb#OPT# = [0,1,\infty,\infty,\infty,\infty,\infty,\infty,\infty]\] Now we loop through the amounts. Let <code>amount = 2</code>. We will now loop through all the denominations. We have:</p>
+
+<ul>
+<li>\(\text{amount} - 1 = 1\) so we move on to the next if statement. We have \(\verb#OPT#[\text{amount} - 1] + 1 = 2\) which is smaller than \(\infty\) so we update the array: <code>OPT[2] = 2</code>.</li>
+<li>\(\text{amount} - 4 = -2\) which is smaller than zero, so we can't use this denomination and thus we move on.</li>
+<li>\(\text{amount} - 5 = -3\) which is smaller than zero, so we can't use this denomination and thus we move on.</li>
+</ul>
+
+<p>Our <code>OPT</code> is now \[\verb#OPT# = [0,1,2,\infty,\infty,\infty,\infty,\infty,\infty]\] Let <code>amount = 3</code> We will now loop through all the denominations. We have:</p>
+
+<ul>
+<li>\(\text{amount} - 1 = 2\) so we move on to the next if statement. We have \(\verb#OPT#[\text{amount} - 1] + 1 = 3\) which is smaller than \(\infty\) so we update the array: <code>OPT[3] = 3</code>.</li>
+<li>\(\text{amount} - 4 = -1\) which is smaller than zero, so we can't use this denomination and thus we move on.</li>
+<li>\(\text{amount} - 5 = -2\) which is smaller than zero, so we can't use this denomination and thus we move on.</li>
+</ul>
+
+<p>Our <code>OPT</code> is now \[\verb#OPT# = [0,1,2,3,\infty,\infty,\infty,\infty,\infty]\] Let <code>amount = 4</code>. We will now loop through all the denominations. We have:</p>
+
+<ul>
+<li>\(\text{amount} - 1 = 3\) so we move on to the next if statement. We have \(\verb#OPT#[\text{amount} - 1] + 1 = 4\) which is smaller than \(\infty\) so we update the array: <code>OPT[4] = 4</code>.</li>
+<li>\(\text{amount} - 4 = 0\) so we move on to the next if statement. We have \(\verb#OPT#[\text{amount} - 4] + 1 = 1\) which is smaller than \(\verb#OPT[4]#=4\) so we update the array: <code>OPT[4] = 1</code>.</li>
+<li>\(\text{amount} - 5 = -1\) which is smaller than zero, so we can't use this denomination and thus we move on.</li>
+</ul>
+
+<p>Our <code>OPT</code> is now \[\verb#OPT# = [0,1,2,3,1,\infty,\infty,\infty,\infty]\] Let <code>amount = 5</code>. We will now loop through all the denominations. We have:</p>
+
+<ul>
+<li>\(\text{amount} - 1 = 4\) so we move on to the next if statement. We have \(\verb#OPT#[\text{amount} - 1] + 1 = 2\) which is smaller than \(\infty\) so we update the array: <code>OPT[5] = 2</code>.</li>
+<li>\(\text{amount} - 4 = 1\) so we move on to the next if statement. We have \(\verb#OPT#[\text{amount} - 4] + 1 = 2\) which is equal to \(\verb#OPT[5]#=2\), so we don't update the array.</li>
+<li>\(\text{amount} - 5 = 0\) so we move on to the next if statement. We have \(\verb#OPT#[\text{amount} - 5] + 1 = 1\) which is smaller than \(\verb#OPT[5]#=2\) so we update the array: <code>OPT[5] = 1</code>.</li>
+</ul>
+
+<p>Our <code>OPT</code> is now \[\verb#OPT# = [0,1,2,3,1,1,\infty,\infty,\infty]\] Continuing this process for the remaining amounts, we obtain the final <code>OPT</code> array: \[\verb#OPT# = [0,1,2,3,1,1,2,2,2]\] Thus, our function returns <code>OPT[target] = OPT[8] = 2</code>, which is the minimum number of coins needed to make the target amount of 8 using the given denominations.</p>
+
+<h2 id="L6-retrieving-the-solution"> Retrieving the Solution</h2>
+
+<p>So what if we know what the optimal number is? It doesn't help us unless we can retrieve th actual combination of coins in order for this to happen. Let us define \[OPT\_soln(i) := \text{a best solution to make i\}\] Note that this is not well-defined. There could be several best solutions, but we only need to pick 1. The idea here is that every time we update <code>OPT[amount]</code> we want to also update <code>OPT_soln[amount]</code> so that we can retrieve the solution later. If we write <code>OPT_soln</code> as a dictionary, we can initialize it via</p>
+
+<pre><code>OPT_soln = {}
+OPT_soln[0] = []
+</code></pre>
+
+<p>Then whenever we update <code>OPT[amount] = OPT[amount - d] + 1</code> where we are using <code>d</code> as a valid denomination, we can update our dictionary</p>
+
+<pre><code>OPT_soln[amount] = OPT_soln[amount - d] + [d]
+</code></pre>
+
+<p>The above code appends two lists together. This gets overwritten every time <code>OPT[amount]</code> gets updated, but this is a good thing since <code>OPT[amount]</code> gets updated only when we find a better solution, so <code>OPT_soln[amount]</code> becomes a shorter list. Our final code is as follows:</p>
+
+<pre><code>import numpy as np
+    def make_change(denom, target):
+        OPT = np.inf * np.ones(target + 1)
+        OPT[0] = 0
+
+        OPT_soln = {}
+        OPT_soln[0] = []
+
+        for amount in range(1, target + 1):
+
+            # check all denominations
+            for d in denom:
+
+                # can we use this denomination?
+                if amount - d &gt;= 0:
+
+                    # is this the best way to make this amount?
+                    if OPT[amount - d] + 1 &lt; OPT[amount]:
+
+                        # update the optimal solution
+                        OPT[amount] = OPT[amount-d] + 1
+                        OPT_soln[amount] = OPT_soln[amount-d] + [d]
+
+        return OPT_soln[target]
+</code></pre>
+
+<p>After running this code on our example, we get the following <code>OPT_soln</code></p>
+
+<p>{0: [],
+1: [1],
+2: [1, 1],
+3: [1, 1, 1],
+4: [4],
+5: [5],
+6: [5, 1],
+7: [5, 1, 1],
+8: [4, 4]}</p>
+
+<p>One problem with this algorithm is that sometimes there is no solution. In our example, we are guaranteed a solution since a coin with value \(1\) exists. If this didn't exist, then there's no way we can make something of value \(1\). To fix this, all we need to do is replace the return statement with</p>
+
+<pre><code>return OPT_soln.get(target, None)
+</code></pre>
+
+<p>where it tries to get the value with key <code>target</code> but if it doesn't exist (i.e. there's no solution) it returns <code>None.</code></p>
+
+<h2 id="L6-recursive-solution"> Recursive Solution</h2>
+
+<p>We can write a recursive solution (which isn't efficient at all) but it's quick to write! We have</p>
+
+<pre><code>def make_change(denom, target):
+    if target == 0
+        return 0
+    if target &lt; 0
+        return None
+    min_coins = np.inf
+    for d in denom:
+        cur_min = make_change(denom, target - d) + 1
+        if cur_min &lt; min_coins:
+            min_coins = cur_min
+    return min_coins
+</code></pre>
+
+<p>The structure actually isn't too much different. For the most part, we've swapped from square brackets to round brackets. Instead of getting a value at an index, we are calling a function instead. Hoever, this is very inefficient.  </p>
+
+<p>Suppose we have three denominations. Then to compute \(OPT(t)\) we need to compute three functions \(OPT(t-1),OPT(t-4),OPT(t-5)\). For each of these three functions, I need to compute three more functions. We have the following tree.</p>
+
+<pre><code>                      (t)
+                    /  |  \\
+                  /    |    \\
+                /      |      \\
+             (t-1)   (t-4)    (t-5)
+            / | \\    / | \\    / | \\
+</code></pre>
+
+<p>At each level \(k\), we call at most \(3^k\) functions, where the maximum number of \(k\) is <code>target</code>. Therefore, the total number of calls we make is bounded by \[3^0+3^1+3^2+\cdots + 3^t = \frac{3^{t+1}-1}{3-1} = \mathcal{O}(3^t).\] In general, the time complexity, without memoization, is \[\mathcal{O}(d^t)\] where \(d\) is the number of denominations and \(t\) is the target amount. If we use <em>memoization</em> we can save a lot of time. We have the code</p>
+
+<pre><code>def make_change_recursive(denom, target, memo={}):
+    if target in memo:
+        # already computed, don't need to re-compute
+        return memo[target]
+
+    if target == 0:
+        memo[0] = 0
+        return 0
+
+    if target &lt; 0:
+        memo[target] = np.inf
+        return np.inf
+
+    min_coins = np.inf
+    for d in denom:
+        cur_min = make_change_recursive(denom, target - d, memo) + 1
+        if cur_min &lt; min_coins:
+            min_coins = cur_min
+
+    memo[target] = min_coins
+
+    return min_coins
+</code></pre>
+
+<p>The main idea is that we stop recursive calls whenever we've already computed the value, which we're storing in the dictionary <code>memo</code>. How can we get the actual solution here? We do a similar thing as before, where <strong>every time we update the optimal number, we also update a dictionary that keeps track of the solution that corresponds to this optimal number (i.e. optimal path)</strong>. This is a common trick in dynamic programming problems that will be used over and over again.</p>
+
+<pre><code>def make_change_recursive(denom, target, memo={}, solns={}):
+    if target in memo:
+        return memo[target], solns[target]
+
+    if target == 0:
+        memo[0] = 0
+        solns[0] = []
+        return 0, []
+
+    if target &lt; 0:
+        memo[target] = np.inf
+        solns[target] = None
+        return np.inf, None
+
+    min_coins = np.inf
+    optimal_soln = None
+    for d in denom:
+        cur_min, cur_soln = make_change_recursive(denom, target - d, memo, solns)
+        if cur_min &lt; min_coins:
+            min_coins = cur_min + 1
+            optimal_soln = cur_soln + [d]
+
+    memo[target] = min_coins
+    solns[target] = optimal_soln
+
+    return min_coins, optimal_soln
+</code></pre>
+
+<p>The time complexity analysis is left to the next class.</p>
+
+<h2 id="L6-complexity-analysis-for-memoization-solution"> Complexity Analysis for Memoization Solution</h2>
+
+<p>The time complexity is \(\mathcal{O}(d*t)\) where \(d\) is the number of denominations and \(t\) is the target amount. We can compute this by determining how many times we call the recursive function \(\verb#make_change_recursive()#\). For each target, we recursively call the function \(d\) times (this is where the for loop is). The maximum number of targets is \(t+1\) (this is only an upper bound because sometimes we don't need to call the function for a target). Therefore, the total number of calls is \(d*(t+1))\).  </p>
+
+<p>It remains to verify that the other operations are constant time. Clearly, the base case is constant time since it involves only comparing numbers and changing the value of an array at a particular index. The only other part that might not be constant time is the line</p>
+
+<pre><code>optimal_soln = cur_soln + [d]
+</code></pre>
+
+<p>because it involves creating a new list. This line is lazy writing and could be solved by pre-allocating enough space for the list so we don't need to create a new list every time, so we can make this part constant time as well. Since all other operations are in constant time, the time complexity is equal to the number of calls, which is \(\mathcal{O}(d*t)\).</p>
+
+<h2 id="L6-memoization-vs-iterative"> Memoization vs Iterative</h2>
+
+<p>In many cases, both memoization and iterative (bottom-up) dynamic programming can be used to solve a problem. However, sometimes memoization might be slightly more efficient. This is because in memoization, we take a top-down approach. This means we don't need to compute the optimal values for every number below our target. We only make recursive calls to the numbers that we actually need.  </p>
+
+<p>We lose this ability when we take a bottom-up approach with the iterative method as we need to compute the optimal values for every number below our target. Therefore, if there are few denominations that are very spread out and we have a large target, it's going to take much longer for an iterative solution to compute the optimal solution, since it will be computing so many unnecessary values.</p>
+
+<h1 id="L7"> L29: Graphs</h1>
+
+<p>We've already seen graphs twice: we've seen both heaps and linked lists. In general,</p>
+
+<p>A <strong>graph</strong> \(G=(V,E)\) consists of a set of vertices (nodes) \(V\) and a set of edges \(E\).</p>
+
+<p>For example, the following is a graph,</p>
+
+<p><img src="diagrams/graph.jpg" alt="" width="100%" /></p>
+
+<p>where \[ \begin{align*} G &amp;= (V,E) \\ V &amp;= \{v_1, v_2, v_3, v_4, v_5\} \\ E &amp;= \{e_1, e_2, e_3, e_4, e_\} \\ e_1 &amp;= (v_1, v_2) \\ e_2 &amp;= (v_2, v_3) \\ e_3 &amp;= (v_2, v_4) \\ e_4 &amp;= (v_3, v_5) \end{align*} \] Here, the edges can either be undirected or directed. If no arrows are drawn, we assume the edges are undirected (so we can travel from \(v_1\) to \(v_2\) and from \(v_2\) to \(v_1\)) and we treat \((v_1,v_2)\) as an unordered pair.  </p>
+
+<p>Why might we use graphs?</p>
+
+<ul>
+<li><p>Vertices are cities, edges are direct flights between cities: Want to find the best route between cities</p></li>
+<li><p>Reformulate: Find the shortest distance between two nodes on a graph</p></li>
+<li><p>Vertices are school classes, edges connect classes whose schedules overlap: Want to find scheduling times/locations for classes</p></li>
+<li><p>Reformulate: Find a set of nodes that are completely disconnected from each other (i.e. no two nodes share an edge)</p></li>
+<li><p>Vertices are objects in memory, edges connect objects that refer to each other: Want to know when an object can be freed</p></li>
+<li><p>Reformulate: Find the set of nodes that connect to a certain node</p></li>
+</ul>
+
+<p>as just a few examples. The reason this is important is that there are already standard algorithms for dealing with these types of problems, so if we can take our problem and reformulate it as a graph problem, we automatically get the solution. Some different types of graphs:</p>
+
+<ul>
+<li><strong>Directed Graphs ("digraphs"):</strong> Edges have directions associated with them</li>
+</ul>
+
+<p><img src="diagrams/digraph.jpg" alt="" width="100%" /></p>
+
+<p>Here, we write \(e_1 = (v_2,v_1)\) where the order matters now. The first element is the predecessor (or source) and the second element is the successor (or target).*   <strong>Weighted graphs:</strong> Each edge has a weight associated to it</p>
+
+<p><img src="diagrams/weighted_graph.jpg" alt="" width="100%" /></p>
+
+<p>and some terminology:</p>
+
+<ul>
+<li>Vertex \(v_1\) is <strong>adjacent</strong> to vertex \(v_2\) if an edge connects them.</li>
+<li>A <strong>path</strong> is a sequence of vertices that are connected by edges. The length of the path is the number of <em>edges</em> in it</li>
+<li>A <strong>cycle</strong> is a path that starts and ends at the same vertex</li>
+<li>A graph with no cycles is called a <strong>acyclic graph</strong></li>
+<li>A directed acyclic graph is abbreviated as <strong>DAG</strong></li>
+<li>A <strong>simple path</strong> is a path that does not contain any repeated vertices</li>
+<li>A <strong>simple cycle</strong> is a cycle that does not contain any repeated vertices (except for the first and last vertex)</li>
+<li>Two vertices are <strong>connected</strong> if there is a path between them</li>
+<li>A subset of vertices is a <strong>connected component</strong> if every pair of vertices in the subset is connected</li>
+<li>The <strong>degree</strong> of vertex \(v\) is the number of edges that connect to it</li>
+</ul>
+
+<p>In general, I believe the definitions to be pretty straightforward. It maps pretty well to what you would expect it to be.</p>
+
+<h2 id="L7-implementation"> Implementation</h2>
+
+<p>There are two common ways to implement the graph ADT.  </p>
+
+<ul>
+<li>We can use a <strong>Adjacency Matrix</strong>, which is a \(n\times n\) matrix where \(\verb#M[i][j]=1#\) if there is an edge between vertex \(i\) and vertex \(j\), and \(\verb#M[i][j]=0#\) otherwise.</li>
+<li>We can use an <strong>Adjacency List</strong>, which is a list of lists where \(\verb#L[i]#\) is a list of all the vertices that are adjacent to vertex \(i\).</li>
+</ul>
+
+<h1 id="L8"> L30: Graphs (continued)</h1>
+
+<h2 id="L8-adjacency-list"> Adjacency List</h2>
+
+<p>We can implement an adjacency list in Python as follows:</p>
+
+<pre><code>class Node:
+    def __init__(self, data):
+        self.data = data
+        self.adjacent = []
+
+node1 = Node('TO')
+node2 = Node('Ottawa')
+node3 = Node('Orlando')
+
+node1.adjacent.append(node2)
+node1.adjacent.append(node3)
+node2.adjacent.append(node1)
+node3.adjacent.append(node1)
+</code></pre>
+
+<p>which gives the following graph:  </p>
+
+<center><script type="text/tikz">\begin{tikzpicture}[scale=2]
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=40pt,inner sep=2pt]
+\node[vertex] (G_1) at (0,2) {TO};
+\node[vertex] (G_2) at (0.7,1) {Ottawa};
+\node[vertex] (G_3) at (-0.7,1) {Orlando};
+\draw (G_1) -- (G_2);
+\draw (G_1) -- (G_3);
+\end{tikzpicture}</script></center>
+
+<p>For an undirected graph, if there are \(N\) edges, then the sum of the lengths of all the adjacency lists is \(2N\).</p>
+
+<h2 id="L8-adjacency-matrix"> Adjacency Matrix</h2>
+
+<p>We can implement an adjacency matrix in Python by defining the following <em>symmetric</em> matrix (for undirected graphs) with \(0\)s on the diagonal: \[ A = \begin{pmatrix} 0 &amp; 1 &amp; 1 \\ 1 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 0 \end{pmatrix} \] where we have labelled \(\verb#TO#\) as node 1, \(\verb#Ottawa#\) as node 2, and \(\verb#Orlando#\) as node 3. Then the entry \(A_{ij}\) is 1 if there is an edge starting at node \(i\) and ending at node \(j\). Recall from linear algebra that \(A_{ij}\) refers to the element in the \(i\)th row and \(j\)th column of the matrix \(A\).  </p>
+
+<h2 id="L8-pagerank"> Pagerank</h2>
+
+<p>One very notable application of an adjacency matrix is the <strong>PageRank</strong> algorithm, which is the first and most well-known algorithm used by Google to rank web pages. It essentially tries to capture the idea of which pages are the most important by asking the following question: If I start at a random page and follow random links, what is the probability that I will end up at page \(i\)?</p>
+
+<ol>
+<li>Normalize the matrix \(A\) to be \[ A = \begin{pmatrix} 0 &amp; 1/2 &amp; 1/2 \\ 1 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 0 \end{pmatrix} \] such that each row sums to 1 (i.e. the total probability of ending up at a site when clicking a link is 1).</li>
+<li>Imagine that we start at state \(v_0\)</li>
+<li><p>The (un-ormalized) probability distribution of reaching some site after a single link click is given by \( A^T v_0\). Why is this the case? If the current site is Toronto, then we can write \[ v_0 = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} \] and the (transpose) adjacency matrix \(A^T\) maps this vector to the first row of the matrix, which contains all the sites that Toronto links to.  </p>
+
+<p>In lecture, Professor Guerzhoy wrote \(Av_0\) instead. This gives a different result as the result will be a column that represents the sites that lead to Toronto. For a symmetric adjacency matrix, there is no difference, but in reality, we wouldn't have it to be symmetrical.</p></li>
+<li><p>Just doing this once is a horrible way of measuring the importance of a site. Someone could cheat the system very easily by creating several sites that all link to the same site. The idea is that if we have a very popular site being linked to by many sites, then many of these sites should also be very popular.  </p>
+
+<p>This idea is reflected by iterating the process of multiplying by \(A^T\) several times. Suppose we run it \(k\) times, where \(k\) is some very large number. Surprisingly, the result should actually converge! We get \[ (A^T)^{k} \vec{v}_0 \to \vec{p} \] where \(\vec{p}\) is the probability distribution of reaching any site after \(k\) clicks. This result should not change much depending on what the initial state is (barring some edge cases such as islands), but it is typically done by assuming an initial uniform distribution.  </p>
+
+<p>The \(i^\text{th}\) element of \(\vec{p}\) will then be the page rank of the \(i^\text{th}\) site. The intuition is that if we start at a random site and click links, then the probability of ending up at site \(i\) is equal to the page rank of site \(i\).</p></li>
+</ol>
+
+<p>Outside of pagerank, this is a very fundamental idea that allows us to see which nodes are connected.</p>
+
+<h2 id="L8-graph-implementation-using-adjacency-matrix"> Graph Implementation using Adjacency Matrix</h2>
+
+<p>We can implement a graph in Python as follows. Note that I have fixed a few minor bugs from lecture.</p>
+
+<pre><code>class Graph:
+    def __init__(self, capacity):
+        self.capacity = capacity # The maximum number of nodes
+        self.cur_num_nodes = 0 # The current number of nodes
+        self.nodes = [] # The list of nodes
+        self.indices = {} # A dictionary mapping node names to indices
+        self.adj_array = [] # The adjacency array
+
+        # Initialize the adjacency array
+        for i in range(self.capacity):
+            self.adj_array.append([None] * self.capacity)
+
+    def expand(self):
+        '''
+        Expand the graph by doubling the capacity.
+        '''
+        adj_array_new = []
+        self.capacity *= 2
+
+        # Create a new adjacency array
+        for i in range(self.capacity):
+            adj_array_new.append([None] * self.capacity)
+
+        # Copy the old adjacency array into the new one
+        for i in range(self.cur_num_nodes):
+            for j in range(self.cur_num_nodes):
+                adj_array_new[i][j] = self.adj_array[i][j]
+
+        self.adj_array = adj_array_new
+
+    def register_node(self, name):
+        '''
+        Register a new node in the graph.
+        '''
+
+        # If the graph is full, expand it
+        if self.capacity == self.cur_num_nodes:
+            self.expand()
+
+        # Add the node to the graph
+        self.nodes.append(name)
+
+        # Add the node to the adjacency array
+        self.indices[name] = self.cur_num_nodes
+
+        # Increment the number of nodes
+        self.cur_num_nodes += 1
+
+        # Initialize the new row and column
+        for i in range(self.cur_num_nodes):
+            self.adj_array[i][self.cur_num_nodes-1] = 0
+            self.adj_array[self.cur_num_nodes-1][i] = 0
+
+    def connect_by_name(self, name1, name2):
+        '''
+        Connect two nodes in the graph by name.
+        '''
+
+        # If either node is not in the graph, add it
+        if name1 not in self.indices:
+            self.register_node(name1)
+        if name2 not in self.indices:
+            self.register_node(name2)
+
+        # Connect the nodes
+        self.connect_by_index(self.indices[name1], self.indices[name2])
+
+    def connect_by_index(self, index1, index2):
+        '''
+        Connect two nodes in the graph by index.
+        '''
+        self.adj_array[index1][index2] = 1
+</code></pre>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

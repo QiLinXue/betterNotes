@@ -3,7 +3,7 @@
   <head>
   <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BetterNotes (WIP!)</title>
+    <title>BetterNotes (WIP)</title>
   
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous"> -->
 
@@ -74,11 +74,18 @@
       <div class="col-sm-3">
         <nav id="toc" data-toggle="toc" class="sticky-top"></nav>
       </div>      <div class="col-sm-9">
-          <h1 id="-Title">BetterNotes (WIP!)</h1>
+          <h1 id="-Title">BetterNotes (WIP)</h1>
 
 <h1 id="L1"> Introduction to BetterNotes</h1>
 
 <p><strong>BetterNotes</strong> is a project with the intended purpose of making the process of note-taking more <em>streamlined</em> for STEM classes, specifically aimed at math, physics, and CS courses.</p>
+
+<h2 id="L1-demo"> Demo</h2>
+
+<p><strong>See an interactive live demo <a href="http://qilin-better-notes.herokuapp.com/">here!</a></strong></p>
+
+<p><strong>Watch it in action:</strong> <em>Note:</em> in the demo below, I used a VSCode extension that automatically updates the HTML file, but you can use any editor you wish! You can even use a markdown app, and the HTML file will still be automatically updated.
+<img src="better-notes-demo.gif" alt="" width="100%" /></p>
 
 <h2 id="L1-high-level-goals"> High Level Goals</h2>
 
@@ -100,7 +107,11 @@
 
 <p>This project is inspired from spending countless hours taking notes in both \( \LaTeX \) and HTML as both a student and a teaching assistant. Why can't I take notes on an easier platform and have it convert it to both HTML and LaTeX?</p>
 
-<h1 id="L2"> Basic Features</h1>
+<h2 id="L1-disclaimer"> Disclaimer</h2>
+
+<p>The project is not yet complete! Currently, it only supports markdown to HTML. I hope to eventually add \( \LaTeX \) support and custom styles (who knew writing notes could be so simple!)</p>
+
+<h1 id="L2"> Features</h1>
 
 <p>Here are some examples of basic features</p>
 
@@ -123,24 +134,12 @@ It live updates! Wow... This is so cool....</p>
         return fib(n-1) + fib(n-2)
 </code></pre>
 
-<p>or even C code!</p>
-
-<pre><code>#include &lt;stdio.h&gt;
-int main() {
-   // printf() displays the string inside quotation
-   printf("Hello, World!");
-   return 0;
-}
-</code></pre>
-
 <h2 id="L2-images"> Images</h2>
 
 <p>We can import a simple image (this is what DALLE gives me for the prompt <code>note taking app cyberpunk</code>)
 <img src="test_img.png" alt="" width="100%" /></p>
 
-<h1 id="L3"> Advanced Features</h1>
-
-<h2 id="L3-tikzpicture"> TikzPicture</h2>
+<h2 id="L2-tikzpicture"> TikzPicture</h2>
 
 <p>This note system supports custom tikzpictures! How cool is that!</p>
 
@@ -153,7 +152,7 @@ int main() {
 \draw[->] (2.5,1.5) -- (2.5,2) node[anchor=south] {\( _{y} \)};
 \end{tikzpicture}</script></center>
 
-<h2 id="L3-boxes"> Boxes</h2>
+<h2 id="L2-boxes"> Boxes</h2>
 
 <p>We can create definitions</p>
 
@@ -168,25 +167,41 @@ int main() {
 <p>and theorems</p>
 
 <p><div class="alert alert-primary" role="alert">Theorem: It is trivial to show that
-\[  P \neq NP?  \]
+\[  P \neq NP \]
 </div></p>
 
-<p><div class="alert alert-dark" role="alert">Prove by contradiction. Suppose \( P=NP. \) Then pick \( N=2. \) Dividing both sides by \( P \) gives
+<p><div class="alert alert-dark" role="alert"><em>Proof:</em> Prove by contradiction. Suppose \( P=NP. \) Then pick \( N=2. \) Dividing both sides by \( P \) gives
 \[ 1 = N \]
 contradicting \( N=2. \)
 </div></p>
 
-<h1 id="L4"> Compiling</h1>
+<h1 id="L3"> Usage</h1>
+
+<h2 id="L3-compiling"> Compiling</h2>
+
+<p>First, make sure you pip install <code>pyinstaller</code>. Then run:</p>
 
 <pre><code>pyinstaller --onefile betterNotes.py
-mv dist/betterNotes ~/bin
 </code></pre>
 
 <p>You may need to add it to path. On Linux, you can do this via</p>
 
-<pre><code>nano ~/.bashrc
+<pre><code>mv dist/betterNotes ~/bin
+nano ~/.bashrc
 export PATH="\( PATH: \)HOME/bin"
 source ~/.bashrc
+</code></pre>
+
+<h2 id="L3-live-update"> Live Update</h2>
+
+<p>After it has compiled, you can run</p>
+
+<pre><code>betterNotes input.md output.html
+</code></pre>
+
+<p>where you can replace <code>input.md</code> and <code>output.html</code> with the respective input and output files. If <code>output.html</code> is not give, the output file will default to <code>input.html</code>. If <code>input.md</code> or <code>output.html</code> do not exist, they will be created. Therefore, to start new notes you can simply run</p>
+
+<pre><code>betterNotes input.md
 </code></pre>
 
         </div>

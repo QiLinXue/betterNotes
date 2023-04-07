@@ -258,7 +258,7 @@ To determine the initial capacity, we need to determine the number of digits `in
 I claim that the formula for the number of digits of \\(n\\) is given by \\\[\\text{num of digits} = \\text{floor}(\\log\_{10}(n)) + 1.\\\]
 @@
 
-@@PROOF
+@@PRF
 _Proof:_ A \\(k\\)-digit number can be written as \\\[n = a\_{k-1}10^{k-1} + a\_{k-2}10^{k-2} + \\cdots + a\_110^1 + a\_.\\\] where the leading coefficient \\(a\_{k-1} \\neq 0\\). To double-check this, note that \\(15 = 1 \\times 10^1 + 5\\) so the leading power is \\(k-1\\). Note that: \\\[10^{k-1} \\le n < 10^k.\\\] It is important that the right inequality is strict! This is because \\(10^k\\) has \\(k+1\\) digits while \\(n\\) only has \\(k\\) digits. For those who want more rigour, note that each \\(a\_i\\) is smaller or equal to \\(9\\) so we can bound \\(n \\le \\sum\_{i=0}^{k-1} 9 \\cdot 10^{i}\\).  
 @@
 

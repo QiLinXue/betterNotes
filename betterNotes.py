@@ -24,12 +24,17 @@ class MarkdownFileHandler(FileSystemEventHandler):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('input_file', help='input Markdown file')
-    parser.add_argument('output_file', help='output HTML file')
+
+    # default output file is input file with .html extension
+    parser.add_argument('output_file', help='output HTML file', nargs='?', default=None)
     args = parser.parse_args()
 
+    if args.output_file is None:
+        args.output_file = os.path.splitext(args.input_file)[0] + '.html'
+
     if not os.path.exists(args.input_file):
-        print("Error: Input file '{}' does not exist.".format(args.input_file))
-        exit(1)
+        # create the file if it doesn't exist
+        open(args.input_file, 'a').close()
 
     event_handler = MarkdownFileHandler(args.input_file, args.output_file)
 

@@ -108,7 +108,7 @@ def convert_to_html(md_content):
     --------------------- Use Markdown2 to do the dirty work ------------------------
     '''
     
-    md_content = markdown2.markdown(md_content, extras=['fenced-code-blocks', 'cuddled-lists', 'header-ids', 'code_friendly'])
+    md_content = markdown2.markdown(md_content, extras=['fenced-code-blocks', 'cuddled-lists', 'header-ids', 'code-friendly'])
     '''
     ------------------ Now we can customize the HTML further ------------------
     '''

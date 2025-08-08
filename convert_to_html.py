@@ -1,7 +1,7 @@
 import re
 import sys
-import os
 import markdown2
+import json
 
 def heading_label(content):
 
@@ -54,32 +54,6 @@ def convert_to_html(md_content):
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
     <script src="https://tikzjax.com/v1/tikzjax.js"></script>
-    <script type="text/javascript">
-      (function (i, s, o, g, r, a, m) {
-        i["GoogleAnalyticsObject"] = r;
-        (i[r] =
-          i[r] ||
-          function () {
-            (i[r].q = i[r].q || []).push(arguments);
-          }),
-          (i[r].l = 1 * new Date());
-        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m);
-      })(
-        window,
-        document,
-        "script",
-        "//www.google-analytics.com/analytics.js",
-        "ga"
-      );
-
-      ga("create", "UA-19048260-11", "auto");
-      ga("send", "pageview");
-
-      hljs.highlightAll();
-    </script>
     '''
 
     '''
@@ -95,8 +69,9 @@ def convert_to_html(md_content):
         1)
     
     # HTML Title but only if it exists
-    if re.search(r'<h1 id="-(.+)">(.*?)</h1>', md_content):
-      title = re.search(r'<h1 id="-(.+)">(.*?)</h1>', md_content).group(2)
+    search_res = re.search(r'<h1 id="-(.+)">(.*?)</h1>', md_content)
+    if search_res: 
+      title = search_res.group(2) 
     else:
       title = 'Untitled'
 
@@ -208,17 +183,6 @@ def main(input_file, output_file):
 
     with open(output_filename, 'w') as f:
         f.write(html_content)
-
-# import time
-# from watchdog.observers import Observer
-# from watchdog.events import FileSystemEventHandler
-
-# class MarkdownFileHandler(FileSystemEventHandler):
-#     def on_modified(self, event):
-#         if event.src_path.endswith('sample_markdown.md'):
-#             main()
-import sys
-import json
 
 if __name__ == '__main__':
     # Read input from stdin
